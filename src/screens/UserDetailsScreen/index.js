@@ -114,7 +114,7 @@ export default function UserDetailsScreen({ route, navigation }) {
             <FlatList
               data={ repos }
               keyExtractor={ item => String(item.id) }
-              renderItem={({ item }) => <UserReposListItem repo={ item } />}
+              renderItem={({ item }) => <UserReposListItem navigation={ navigation } repo={ item } />}
               contentContainerStyle={ styles.flatList }
               ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             />

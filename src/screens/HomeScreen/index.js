@@ -110,7 +110,7 @@ export default function HomeScreen({ navigation }) {
           )
         }
         <View style={ styles.footer }>
-          <Text style={ styles.footerText }>Find in Github&copy;.</Text>
+          <Text style={ styles.footerText }>Find in Github 2020</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>

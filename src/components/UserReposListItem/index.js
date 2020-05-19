@@ -3,11 +3,13 @@ import { Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { styles } from './styles';
 
-export default function UserReposListItem({ repo }) {
+export default function UserReposListItem({ repo, navigation }) {
   return(
     <TouchableOpacity
       style={ styles.container }
-      onPress={() => {}}
+      onPress={() => navigation.navigate('RepoDetails', {
+        repo: repo.url
+      })}
       activeOpacity={0.8}
     >
       <Text style={ styles.text }>{
