@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -37,6 +37,28 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     opacity: 0.7,
   },
+
+  userDescription: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    marginVertical: 10,
+  },
+  descriptionItem: {
+    alignItems: 'flex-start',
+    padding: 10,
+  },
+  descriptionTitle: {
+    color: '#FFFFFF',
+    fontFamily: fontsFamily.regular,
+    opacity: 0.5,
+    fontSize: 10,
+  },
+  descriptionText: {
+    color: '#FFFFFF',
+    fontFamily: fontsFamily.bold,
+    fontSize: 20,
+  },
+
   options: {
     paddingHorizontal: 20,
   },
@@ -52,7 +74,12 @@ export const styles = StyleSheet.create({
     fontFamily: fontsFamily.regular,
     textTransform: 'uppercase',
   },
+
   searchLoading: {
     marginTop: 15,
-  }
+  },
+  flatList: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
 });

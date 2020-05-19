@@ -41,6 +41,18 @@ export default function UserDetailsScreen({ route, navigation }) {
           <Text style={ styles.closeBtnText }>Fechar</Text>
         </TouchableOpacity>
       </View>
+      
+      <View style={ styles.userDescription }>
+        <View style={ styles.descriptionItem }>
+          <Text style={ styles.descriptionTitle }>
+            Score
+          </Text>
+          <Text style={ styles.descriptionText }>
+            { data.score }
+          </Text>
+        </View>
+      </View>
+      
       <View style={ styles.options }>
         <TouchableOpacity
           style={ styles.optionBtn }
@@ -50,6 +62,7 @@ export default function UserDetailsScreen({ route, navigation }) {
           <Text style={ styles.optionBtnText }>Repositories</Text>
         </TouchableOpacity>
       </View>
+
       {
         isLoading ?
         (
@@ -68,6 +81,7 @@ export default function UserDetailsScreen({ route, navigation }) {
             renderItem={({ item }) => (
               <Text style={{color: 'white'}}>{ item.full_name }</Text>
             )}
+            contentContainerStyle={ styles.flatList }
           />
         )
       }
