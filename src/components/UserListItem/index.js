@@ -2,11 +2,13 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 
-export default function UserListItem({ data }) {
+export default function UserListItem({ data, navigation }) {
   return (
     <TouchableOpacity
       style={ styles.container }
-      onPress={() => {}}
+      onPress={() => navigation.navigate('Details', {
+        data: data
+      })}
       activeOpacity={0.2}
     >
       <View style={ styles.avatarContainer }>

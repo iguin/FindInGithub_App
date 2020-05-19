@@ -64,7 +64,12 @@ export default function HomeScreen({ navigation }) {
           <FlatList
             data={ searchResults.items }
             keyExtractor={ item => String(item.id) }
-            renderItem={({ item }) => <UserListItem data={ item } /> }
+            renderItem={({ item }) => (
+              <UserListItem 
+                data={ item }
+                navigation={ navigation }
+              /> 
+            )}
             ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
             ListEmptyComponent={() => <Text style={ styles.waitingSearch }>...</Text>}
             contentContainerStyle={ styles.searchItems }

@@ -45,7 +45,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: defaultHorizontalPadding,
   },
   searchItems: {
-    flex: 1,
     paddingVertical: 15,
     paddingHorizontal: defaultHorizontalPadding,
   },

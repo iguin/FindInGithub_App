@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import DetailsScreen from '../screens/DetailsScreen';
+import UserDetailsScreen from '../screens/UserDetailsScreen';
 
 const Stack = createStackNavigator();
 const options = {
@@ -20,7 +20,7 @@ export default function HomeRoutes() {
         />
         <Stack.Screen
           name="Details"
-          component={DetailsScreen} 
+          component={UserDetailsScreen} 
           options={ options }
         />
       </Stack.Navigator>
