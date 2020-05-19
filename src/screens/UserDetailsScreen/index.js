@@ -75,7 +75,7 @@ export default function UserDetailsScreen({ route, navigation }) {
       <View style={ styles.userDescription }>
         <View style={ styles.descriptionItem }>
           <Text style={ styles.descriptionTitle }>
-            Pub. Repos
+            Repositories
           </Text>
           <Text style={ styles.descriptionText }>
             { data.public_repos }
@@ -101,9 +101,7 @@ export default function UserDetailsScreen({ route, navigation }) {
         </View>
       </View>
 
-      <View style={ styles.options }>
-        <Text style={ styles.optionBtnText }>Repositories</Text>
-      </View>
+      <Text style={ styles.repositoriesTitle }>Repositories</Text>
 
       {
         reposLoading ?

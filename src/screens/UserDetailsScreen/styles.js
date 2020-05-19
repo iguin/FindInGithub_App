@@ -42,14 +42,18 @@ export const styles = StyleSheet.create({
 
   userDescription: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
+    marginHorizontal: 20,
     marginVertical: 20,
+    padding: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   descriptionItem: {
-    height: 55,
+    height: 50,
+    width: 70,
     alignItems: 'flex-start',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 7,
+    paddingVertical: 5,
     marginRight: 5,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
@@ -57,7 +61,7 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: fontsFamily.regular,
     opacity: 0.5,
-    fontSize: 10,
+    fontSize: 9,
   },
   descriptionText: {
     color: '#FFFFFF',
@@ -65,10 +69,8 @@ export const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  options: {
-    paddingHorizontal: 20,
-  },
-  optionBtnText: {
+  repositoriesTitle: {
+    marginHorizontal: 20,
     color: '#FFFFFF',
     fontSize: 10,
     fontFamily: fontsFamily.regular,
