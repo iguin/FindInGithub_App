@@ -37,4 +37,22 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     opacity: 0.7,
   },
+  options: {
+    paddingHorizontal: 20,
+  },
+  optionBtn: {
+    backgroundColor: 'rgba(255, 255, 255,0.2)',
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionBtnText: {
+    color: '#FFFFFF',
+    fontSize: 9,
+    fontFamily: fontsFamily.regular,
+    textTransform: 'uppercase',
+  },
+  searchLoading: {
+    marginTop: 15,
+  }
 });

@@ -7,6 +7,10 @@ class Api {
       baseURL: 'https://api.github.com',
     });
   }
+  
+  fetchURL(url) {
+    return axios.get(url);
+  }
 
   // Return search user promisse
   searchUser(username) {

@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert, FlatList, ActivityIndicator } from 'react-native';
+import api from '../../service';
 import { styles } from './styles';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function UserDetailsScreen({ route, navigation }) {
 
   const[data, setData] = useState({});
+  const[repos, setRepos] = useState([{}]);
+  const[isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setData(route.params.data);
+    handleRepos(route.params.data.repos_url);
   }, []);
+
+  async function handleRepos(url) {
+    setIsLoading(true);
+
+    await api.fetchURL(url)
+    .then(response => setRepos(response.data))
+    .catch(err => Alert.alert('Oops!', 'Algo deu errado'))
+
+    setIsLoading(false);
+  }
 
   return (
     <View style={ styles.container }>
@@ -28,6 +41,37 @@ export default function UserDetailsScreen({ route, navigation }) {
           <Text style={ styles.closeBtnText }>Fechar</Text>
         </TouchableOpacity>
       </View>
+      <View style={ styles.options }>
+        <TouchableOpacity
+          style={ styles.optionBtn }
+          onPress={() => {}}
+          activeOpacity={0.2}
+        >
+          <Text style={ styles.optionBtnText }>Repositories</Text>
+        </TouchableOpacity>
+      </View>
+      {
+        isLoading ?
+        (
+          <View style={ styles.searchLoading }>
+            <ActivityIndicator
+              size='large'
+              color='#FFFFFF'
+            />
+          </View>
+        )
+        :
+        (
+          <FlatList
+            data={ repos }
+            keyExtractor={ item => String(item.id) }
+            renderItem={({ item }) => (
+              <Text style={{color: 'white'}}>{ item.full_name }</Text>
+            )}
+          />
+        )
+      }
+      
     </View>
   );
 }
