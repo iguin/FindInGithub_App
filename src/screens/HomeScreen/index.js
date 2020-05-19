@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import api from '../../service';
 
 import { styles } from './styles';
@@ -37,48 +37,52 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={ styles.container }>
-      <View style={ styles.titleContainer }>
-        <Text style={ styles.subTitle }>Find in</Text>
-        <Text style={ styles.title }>Github</Text>
-      </View>
-      <View style={ styles.searchContainer }>
-        <TextInput
-          onChangeText={ text => handleSearch(text) }
-          placeholder="Search..."
-          style={ styles.searchInput }
-        />
-      </View>
-      {
-        searchLoading ?
-        (
-          <View style={ styles.searchLoading }>
-            <ActivityIndicator
-              size='large'
-              color='#FFFFFF'
-            />
-          </View>
-        )
-        :
-        (
-          <FlatList
-            data={ searchResults.items }
-            keyExtractor={ item => String(item.id) }
-            renderItem={({ item }) => (
-              <UserListItem 
-                data={ item }
-                navigation={ navigation }
-              /> 
-            )}
-            ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
-            ListEmptyComponent={() => <Text style={ styles.waitingSearch }>...</Text>}
-            contentContainerStyle={ styles.searchItems }
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+    >
+      <View style={ styles.container }>
+        <View style={ styles.titleContainer }>
+          <Text style={ styles.subTitle }>Find in</Text>
+          <Text style={ styles.title }>Github</Text>
+        </View>
+        <View style={ styles.searchContainer }>
+          <TextInput
+            onChangeText={ text => handleSearch(text) }
+            placeholder="Search..."
+            style={ styles.searchInput }
           />
-        )
-      }
-      <View style={ styles.footer }>
-        <Text style={ styles.footerText }>Find in Github&copy;.</Text>
+        </View>
+        {
+          searchLoading ?
+          (
+            <View style={ styles.searchLoading }>
+              <ActivityIndicator
+                size='large'
+                color='#FFFFFF'
+              />
+            </View>
+          )
+          :
+          (
+            <FlatList
+              data={ searchResults.items }
+              keyExtractor={ item => String(item.id) }
+              renderItem={({ item }) => (
+                <UserListItem 
+                  data={ item }
+                  navigation={ navigation }
+                /> 
+              )}
+              ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
+              ListEmptyComponent={() => <Text style={ styles.waitingSearch }>...</Text>}
+              contentContainerStyle={ styles.searchItems }
+            />
+          )
+        }
+        <View style={ styles.footer }>
+          <Text style={ styles.footerText }>Find in Github&copy;.</Text>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
