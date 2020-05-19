@@ -7,7 +7,7 @@ export default function UserListItem({ data, navigation }) {
     <TouchableOpacity
       style={ styles.container }
       onPress={() => navigation.navigate('Details', {
-        data: data
+        username: data.login
       })}
       activeOpacity={0.2}
     >

@@ -21,6 +21,10 @@ class Api {
     });
   }
 
+  getUser(user) {
+    return this.instance.get(`/users/${user}`);
+  }
+
 }
 
 export default new Api;

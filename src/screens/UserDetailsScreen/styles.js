@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     marginTop: 30,
+    alignItems: 'center',
+    height: 45,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -41,11 +43,15 @@ export const styles = StyleSheet.create({
   userDescription: {
     flexDirection: 'row',
     paddingHorizontal: 20,
-    marginVertical: 10,
+    marginVertical: 20,
   },
   descriptionItem: {
+    height: 55,
     alignItems: 'flex-start',
-    padding: 10,
+    justifyContent: 'center',
+    paddingHorizontal: 7,
+    marginRight: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   descriptionTitle: {
     color: '#FFFFFF',
@@ -62,17 +68,12 @@ export const styles = StyleSheet.create({
   options: {
     paddingHorizontal: 20,
   },
-  optionBtn: {
-    backgroundColor: 'rgba(255, 255, 255,0.2)',
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   optionBtnText: {
     color: '#FFFFFF',
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: fontsFamily.regular,
     textTransform: 'uppercase',
+    opacity: .5,
   },
 
   searchLoading: {
