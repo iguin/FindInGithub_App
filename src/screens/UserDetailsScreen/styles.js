@@ -22,6 +22,8 @@ export const styles = StyleSheet.create({
   headerAvatar: {
     width: 35,
     height: 35,
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   headerTitle: {
     color: '#FFFFFF',
@@ -40,22 +42,35 @@ export const styles = StyleSheet.create({
     opacity: 0.7,
   },
 
+  userCreated: {
+    marginLeft: 10,
+  },
+  userCreatedTitle: {
+    fontSize: 7,
+    fontFamily: fontsFamily.regular,
+    color: '#FFFFFF',
+    opacity: .5,
+  },
+  userCreatedContent: {
+    fontSize: 10,
+    fontFamily: fontsFamily.regular,
+    color: '#FFFFFF',
+  },
+
   userDescription: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginHorizontal: 20,
     marginVertical: 20,
-    padding: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   descriptionItem: {
     height: 50,
-    width: 70,
+    width: '32.5%',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     paddingHorizontal: 7,
     paddingVertical: 5,
-    marginRight: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   descriptionTitle: {
     color: '#FFFFFF',

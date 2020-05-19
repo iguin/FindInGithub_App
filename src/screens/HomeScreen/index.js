@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
 import api from '../../service';
 
 import { styles } from './styles';
@@ -7,11 +7,13 @@ import UserListItem from '../../components/UserListItem';
 
 export default function HomeScreen({ navigation }) {
 
+  const[search, setSearch] = useState('');
   const[searchTimeout, setSearchTimeout] = useState(null);
   const[searchResults, setSearchResults] = useState({});
   const[searchLoading, setSearchLoading] = useState(false);
 
   function handleSearch(text) {
+    setSearch(text);
 
     clearTimeout(searchTimeout);
     
@@ -36,6 +38,11 @@ export default function HomeScreen({ navigation }) {
     );
   }
 
+  function handleCleanInput() {
+    setSearch('');
+    setSearchResults({});
+  }
+
   return (
     <TouchableWithoutFeedback
       onPress={() => Keyboard.dismiss()}
@@ -48,9 +55,22 @@ export default function HomeScreen({ navigation }) {
         <View style={ styles.searchContainer }>
           <TextInput
             onChangeText={ text => handleSearch(text) }
+            value={search}
             placeholder="Search..."
             style={ styles.searchInput }
           />
+          {
+          search.trim().length > 0 ?
+          (
+            <TouchableOpacity
+              style={ styles.cleanInput }
+              onPress={() => handleCleanInput()}
+              activeOpacity={0.8}
+            >
+              <Text style={ styles.cleanInputText }>x</Text>
+            </TouchableOpacity>
+          ): (<></>)
+          }
         </View>
         {
           searchLoading ?
@@ -64,19 +84,29 @@ export default function HomeScreen({ navigation }) {
           )
           :
           (
-            <FlatList
-              data={ searchResults.items }
-              keyExtractor={ item => String(item.id) }
-              renderItem={({ item }) => (
-                <UserListItem 
-                  data={ item }
-                  navigation={ navigation }
-                /> 
-              )}
-              ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
-              ListEmptyComponent={() => <Text style={ styles.waitingSearch }>...</Text>}
-              contentContainerStyle={ styles.searchItems }
-            />
+            <>
+              {
+                searchResults.items ?
+                (
+                  <Text style={ styles.totalCount }>Total count: { searchResults.total_count }</Text>
+                )
+                :
+                (<></>)
+              }
+              <FlatList
+                data={ searchResults.items }
+                keyExtractor={ item => String(item.id) }
+                renderItem={({ item }) => (
+                  <UserListItem 
+                    data={ item }
+                    navigation={ navigation }
+                  /> 
+                )}
+                ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
+                ListEmptyComponent={() => <Text style={ styles.waitingSearch }>...</Text>}
+                contentContainerStyle={ styles.searchItems }
+              />
+            </>
           )
         }
         <View style={ styles.footer }>

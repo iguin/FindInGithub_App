@@ -39,6 +39,22 @@ export const styles = StyleSheet.create({
     borderStyle: 'solid',
     height: 40,
   },
+  cleanInput:{
+    position: 'absolute',
+    top: 0,
+    right: defaultHorizontalPadding,
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: defaultHorizontalPadding,
+  },
+  cleanInputText:{
+    color:'#FFFFFF',
+    fontSize: 20,
+    fontFamily: fontsFamily.regular,
+    opacity: .5,
+  },
   searchLoading: {
     marginTop: 15,
     flex: 1,
@@ -53,6 +69,15 @@ export const styles = StyleSheet.create({
     fontFamily: fontsFamily.regular,
     fontSize: 20,
     opacity: .3,
+  },
+  totalCount:{
+    paddingHorizontal: defaultHorizontalPadding,
+    color: '#FFFFFF',
+    paddingTop: 10,
+    fontSize: 10,
+    fontFamily: fontsFamily.regular,
+    textAlign: 'center',
+    opacity: 0.5,
   },
   footer: {
     height: 30,

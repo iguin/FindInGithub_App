@@ -1,15 +1,26 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { styles } from './styles';
 
 export default function UserReposListItem({ repo }) {
   return(
-    <View style={ styles.container }>
+    <TouchableOpacity
+      style={ styles.container }
+      onPress={() => {}}
+      activeOpacity={0.8}
+    >
       <Text style={ styles.text }>{
         repo.name.length <= 20 ?
         repo.name :
         `${repo.name.substr(0, 20)}...`
       }</Text>
-    </View>
+      <FontAwesome
+        name="folder-open"
+        size={18}
+        color="#FFFFFF"
+        style={ styles.icon }
+      />
+    </TouchableOpacity>
   );
 } 

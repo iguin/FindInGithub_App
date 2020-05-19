@@ -47,31 +47,30 @@ export default function UserDetailsScreen({ route, navigation }) {
             <ActivityIndicator
               size="small"
               color="#FFFFFF"
-              style={{
-                opacity: 0.3
-              }}
+              style={{ opacity: 0.3 }}
             />
           )
           :
           (
             <View style={ styles.headerDesc }>
-              <Image
-                source={{ uri: data.avatar_url }}
-                style={ styles.headerAvatar }
-              />
+              <Image source={{ uri: data.avatar_url }} style={ styles.headerAvatar } />
               <Text style={ styles.headerTitle }>{data.login}</Text>
+              <View style={ styles.userCreated }>
+                <Text style={ styles.userCreatedTitle }>User created at</Text>
+                <Text style={ styles.userCreatedContent }>{ new Date(data.created_at).toDateString() }</Text>
+              </View>
             </View>        
           )
         }
         <TouchableOpacity
           style={ styles.closeBtn }
           onPress={() => navigation.goBack()}
-          activeOpacity={0.2}
+          activeOpacity={0.8}
         >
           <MaterialIcons name="keyboard-backspace" size={30} style={{ color: '#FFFFFF', opacity: 0.5 }} />
         </TouchableOpacity> 
       </View>
-      
+
       <View style={ styles.userDescription }>
         <View style={ styles.descriptionItem }>
           <Text style={ styles.descriptionTitle }>
@@ -101,30 +100,27 @@ export default function UserDetailsScreen({ route, navigation }) {
         </View>
       </View>
 
-      <Text style={ styles.repositoriesTitle }>Repositories</Text>
-
-      {
-        reposLoading ?
-        (
-          <View style={ styles.searchLoading }>
-            <ActivityIndicator
-              size='large'
-              color='#FFFFFF'
+      <View style={{ flex: 1 }}>
+        <Text style={ styles.repositoriesTitle }>Repositories</Text>
+        {
+          reposLoading ?
+          (
+            <View style={ styles.searchLoading }>
+              <ActivityIndicator size='large' color='#FFFFFF' />
+            </View>
+          )
+          :
+          (
+            <FlatList
+              data={ repos }
+              keyExtractor={ item => String(item.id) }
+              renderItem={({ item }) => <UserReposListItem repo={ item } />}
+              contentContainerStyle={ styles.flatList }
+              ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             />
-          </View>
-        )
-        :
-        (
-          <FlatList
-            data={ repos }
-            keyExtractor={ item => String(item.id) }
-            renderItem={({ item }) => <UserReposListItem repo={ item } />}
-            contentContainerStyle={ styles.flatList }
-            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          />
-        )
-      }
-      
+          )
+        }
+      </View>
     </View>
   );
 }

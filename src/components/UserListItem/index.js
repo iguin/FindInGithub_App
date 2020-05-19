@@ -9,7 +9,7 @@ export default function UserListItem({ data, navigation }) {
       onPress={() => navigation.navigate('Details', {
         username: data.login
       })}
-      activeOpacity={0.2}
+      activeOpacity={0.8}
     >
       <View style={ styles.avatarContainer }>
         <Image
