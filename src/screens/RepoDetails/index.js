@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, TouchableOpacity, Image, Linking, Animated, Dimensions } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, Image, Linking } from 'react-native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import FullScreenLoading from '../../components/FullScreenLoading';
 import api from '../../service';
@@ -10,7 +10,6 @@ export default function RepoDetails({ navigation, route }) {
 
   const[data, setData] = useState({});
   const[dataLoading, setDataLoading] = useState(true);
-  const[offset] = useState(new Animated.ValueXY({ x: 0, y: 0 }))
 
   useEffect(()=> {
 
@@ -37,13 +36,6 @@ export default function RepoDetails({ navigation, route }) {
 
   function formatDateAndHours(str) {
     return `${formatDate(str)} - ${formatHour(str)}`;
-  }
-
-  function handleShowIssues() {
-    Animated.spring(offset.y, {
-      toValue: -150,
-      speed: 4,
-    }).start();
   }
 
   if(dataLoading) {
@@ -117,23 +109,12 @@ export default function RepoDetails({ navigation, route }) {
               <Text style={styles.dataItemContent}>{formatDateAndHours(data.pushed_at)}</Text>
             </View>
           </View>
-          <View style={styles.buttons}>
-            <TouchableOpacity
-              onPress={() => handleShowIssues()}
-              style={styles.button}
-            >
-              <Text style={{color: '#FFFFFF'}}>Issues</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-        <Animated.View style={{
+        <View style={{
           flex: 1,
-          transform: [
-            { translateY: offset.y },
-          ],
         }}>
           <RepoIssues url={data.issues_url} />
-        </Animated.View>
+        </View>
       </View>
     );
   }

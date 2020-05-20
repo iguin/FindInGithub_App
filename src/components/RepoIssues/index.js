@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, FlatList } from 'react-native';
+import { View, Text, Alert, FlatList, TouchableOpacity } from 'react-native';
 import api from '../../service';
 import FullScreenLoading from '../FullScreenLoading';
+import { styles } from './styles';
 
 export default function RepoIssues({ url }) {
 
   const[loading, setLoading] = useState(true);
   const[data, setData] = useState([]);
   const[page, setPage] = useState(1);
-  const[itemsPerPage, setItemsPerPage] = useState(10);
+  const[itemsPerPage, setItemsPerPage] = useState(20);
 
   useEffect(() => {
     const path = url.replace('{/number}', '');
@@ -35,7 +36,23 @@ export default function RepoIssues({ url }) {
     );
   } else {
     return(
-      <View>
+      <View style={styles.container}>
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => {}}
+          >
+            <Text style={styles.buttonText}>Prev</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.7}
+            onPress={() => {}}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
         <FlatList
           data={data}
           keyExtractor={item => String(item.id)}
