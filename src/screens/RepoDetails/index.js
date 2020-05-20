@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, ActivityIndicator, TouchableOpacity, Image } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, Alert, TouchableOpacity, Image, Linking, Animated, Dimensions } from 'react-native';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
+import FullScreenLoading from '../../components/FullScreenLoading';
 import api from '../../service';
 import { styles } from './styles';
-import FullScreenLoading from '../../components/FullScreenLoading';
+import RepoIssues from '../../components/RepoIssues';
 
 export default function RepoDetails({ navigation, route }) {
 
   const[data, setData] = useState({});
   const[dataLoading, setDataLoading] = useState(true);
+  const[offset] = useState(new Animated.ValueXY({ x: 0, y: 0 }))
 
   useEffect(()=> {
 
@@ -37,6 +39,13 @@ export default function RepoDetails({ navigation, route }) {
     return `${formatDate(str)} - ${formatHour(str)}`;
   }
 
+  function handleShowIssues() {
+    Animated.spring(offset.y, {
+      toValue: -150,
+      speed: 4,
+    }).start();
+  }
+
   if(dataLoading) {
     return (
       <FullScreenLoading iconColor="#FFFFFF" bgColor="#000000" />
@@ -62,7 +71,32 @@ export default function RepoDetails({ navigation, route }) {
             <Text style={styles.headerSubtitle}>{data.owner.login}</Text>
           </View>
         </View>
+        
         <View style={styles.content}>
+          <View style={styles.contentUtilities}>
+            <View style={styles.contentUtilitiesItem}>
+              <Text style={styles.languageTitle}>Language</Text>
+              <Text style={styles.languageContent}>{data.language}</Text>
+            </View>
+            <View style={styles.contentUtilitiesItem}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(data.svn_url)}
+                activeOpacity={0.8}
+                style={styles.contentIcon}
+              >
+                <Feather name="link" size={20} color="#FFFFFF" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.contentUtilitiesItem}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(data.owner.html_url)}
+                activeOpacity={0.6}
+                style={styles.contentIcon}
+              >
+                <Feather name="github" size={20} color="#FFFFFF" />
+              </TouchableOpacity>
+            </View>
+          </View>
           {
             data.description ?
             (
@@ -83,7 +117,23 @@ export default function RepoDetails({ navigation, route }) {
               <Text style={styles.dataItemContent}>{formatDateAndHours(data.pushed_at)}</Text>
             </View>
           </View>
+          <View style={styles.buttons}>
+            <TouchableOpacity
+              onPress={() => handleShowIssues()}
+              style={styles.button}
+            >
+              <Text style={{color: '#FFFFFF'}}>Issues</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        <Animated.View style={{
+          flex: 1,
+          transform: [
+            { translateY: offset.y },
+          ],
+        }}>
+          <RepoIssues url={data.issues_url} />
+        </Animated.View>
       </View>
     );
   }

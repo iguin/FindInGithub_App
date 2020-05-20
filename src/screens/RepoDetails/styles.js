@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: 20,
+    height: 135,
+    justifyContent: 'center',
     paddingHorizontal: 20,
     alignItems: 'center',
   },
@@ -31,8 +32,8 @@ export const styles = StyleSheet.create({
     marginTop: 3,
   },
   headerAvatar: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     borderRadius: 10,
     overflow: 'hidden',
     marginLeft: 7,
@@ -41,10 +42,45 @@ export const styles = StyleSheet.create({
   headerSubtitle: {
     color: '#FFFFFF',
     opacity: 0.5,
+    fontSize: 16,
     fontFamily: fontsFamily.regular,
   },
   content: {
     paddingHorizontal: 20,
+  },
+  contentUtilities: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom:5,
+  },
+  contentUtilitiesItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 5,
+  },
+  languageTitle: {
+    color: '#FFFFFF',
+    opacity: .5,
+    fontSize: 10,
+    fontFamily: fontsFamily.regular,
+  },
+  languageContent: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    marginLeft: 5,
+    fontFamily: fontsFamily.regular,
+  },
+  contentIcon: {
+    width: 35,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 2,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 35,
   },
   description: {
     color: '#FFFFFF',

@@ -8,8 +8,8 @@ class Api {
     });
   }
   
-  fetchURL(url) {
-    return axios.get(url);
+  fetchURL(url, config = {}) {
+    return axios.get(url, config);
   }
 
   // Return search user promisse
