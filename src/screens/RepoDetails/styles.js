@@ -12,6 +12,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
   },
+  headerButtons: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   backButton: {
     width: 40,
     height: 40,
