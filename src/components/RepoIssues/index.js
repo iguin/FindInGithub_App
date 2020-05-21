@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert, FlatList, TouchableOpacity } from 'react-native';
+import FullScreenLoading from '../FullScreenLoading';
 import api from '../../service';
 import { styles } from './styles';
-import FullScreenLoading from '../FullScreenLoading';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function RepoIssues({ url, isOpen, drawer }) {
 
   const[data, setData] = useState([]);
   const[loading, setLoading] = useState(true);
   const[page, setPage] = useState(1);
-  const[itemsPerPage, setItemsPerPage] = useState(10);
+  const[itemsPerPage, setItemsPerPage] = useState(20);
 
   useEffect(() => {
     if(isOpen)
