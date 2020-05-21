@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 60,
+    height: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -18,34 +18,29 @@ export const styles = StyleSheet.create({
   headerTitle: {
     color: '#FFFFFF',
     fontFamily: fontsFamily.regular,
-    fontSize: 20,
+    textTransform: 'uppercase'
+  },
+  dataControlls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 34,
+  },
+  stateControllText: {
+    color: '#FFFFFF',
+    fontFamily: fontsFamily.regular,
+    fontSize: 12,
+    marginHorizontal: 3,
   },
   content: {
     flex: 1,
     backgroundColor: '#000000',
     paddingHorizontal: 10,
   },
-  footer: {
+  moreIssues: {
     height: 50,
-    backgroundColor: '#111111',
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  footerButton: {
-    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  footerButtonText: {
-    color: '#FFFFFF',
-    fontFamily: fontsFamily.regular,
-  },
-  footerPageIndicator: {
-    color: '#FFFFFF',
-    opacity: 0.5,
-    fontSize: 25,
-    fontFamily: fontsFamily.regular,
-  },
+    backgroundColor: '#000000'
+  }
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, Text, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Alert, FlatList, TouchableOpacity, Switch, ActivityIndicator } from 'react-native';
 import api from '../../service';
 import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,44 +10,69 @@ export default function RepoIssues({ url, isOpen, drawer }) {
 
   const[data, setData] = useState([]);
   const[loading, setLoading] = useState(true);
+  const[loadingPage, setLoadingPage] = useState(false);
   const[page, setPage] = useState(1);
-  const[itemsPerPage, setItemsPerPage] = useState(30);
+  const[itemsPerPage] = useState(15);
+  const[issuesState, setIssuesState] = useState('open');
+  const[switchEnable, setSwitchEnable] = useState(false);
 
   useEffect(() => {
-    if(isOpen) handleIssues();
-  }, []);
+    // Show the issues if this screen are open
+    if(isOpen) {
+      handleIssues();
+    }
+  }, [isOpen]);
   
-  function handleIssues() {
+  const handleIssues = (page = 1) => {    
     const path = url.replace('{/number}', '');
-    api.fetchURL(path, {
+
+    const config = {
       params: {
         per_page: itemsPerPage,
         page: page,
+        state: issuesState
       }
-    })
+    };
+    
+    console.log(config);
+
+    api.fetchURL(path, config)
     .then(response => {
-      setData(response.data);
+      let responseData = data;
+      responseData.push(...response.data);
+
+      setData(responseData);
       // console.log(response.data);
       setLoading(false);
+      setLoadingPage(false);
     })
     .catch(err => {
       Alert.alert('Oops!', 'Algo deu erro :(')
       setLoading(false);
+      setLoadingPage(false);
     });
+  };
+
+  const toggleSwitch = () => {
+    // Set Issues state
+    setIssuesState(switchEnable ? 'open' : 'closed');
+    setSwitchEnable(previousState => !previousState);
   }
 
-  function handlePageChange(type) {
+  const handlePageChange = (type) => {
     if(page === 1 && type === 'prev') return;
     setPage(page => type === 'next' ? ++page : --page);
-  }
-  
+  };
+
   if(loading) {
     return (
       <FullScreenLoading iconColor="#FFFFFF" bgColor="#111111" />
     );
   } else {
-    return (
+    return(
       <View style={styles.container}>
+
+        {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.headerBackButton}
@@ -58,6 +83,20 @@ export default function RepoIssues({ url, isOpen, drawer }) {
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Issues</Text>
         </View>
+
+        {/* DATA CONTROLLS */}
+        <View style={styles.dataControlls}>
+          <Text style={styles.stateControllText}>Open</Text>
+          <Switch
+            trackColor={{ false: "#999999", true: "#999999" }}
+            thumbColor={switchEnable ? "#f4f3f4" : "#f4f3f4"}
+            onValueChange={toggleSwitch}
+            value={switchEnable}
+          />
+          <Text style={styles.stateControllText}>Closed</Text>
+        </View>
+
+        {/* CONTENT */}
         <View style={styles.content}>
           <FlatList
             data={data}
@@ -68,25 +107,24 @@ export default function RepoIssues({ url, isOpen, drawer }) {
               <RepoIssuesItem data={item} />
             )}
             ListEmptyComponent={() => <FullScreenLoading iconColor="#FFFFFF" bgColor="#111111" />}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => {
+              let changePage = page;
+              ++changePage;
+              setPage(changePage);
+              setLoadingPage(true);
+              handleIssues(changePage);
+            }}
+            ListFooterComponent={() => !loadingPage ? (<></>) : (
+              <View style={styles.moreIssues}>
+                <ActivityIndicator
+                  size='small'
+                  color="#FFFFFF"
+                />
+              </View>
+            )}
           />
         </View>
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.footerButton}
-            activeOpacity={0.5}
-            onPress={() => { handlePageChange('prev') }}
-          >
-            <Text style={styles.footerButtonText}>Prev. page</Text>
-          </TouchableOpacity>
-          <Text style={styles.footerPageIndicator}>{page}</Text>
-          <TouchableOpacity
-            style={styles.footerButton}
-            activeOpacity={0.5}
-            onPress={() => { handlePageChange('next') }}
-          >
-            <Text style={styles.footerButtonText}>Next page</Text>
-          </TouchableOpacity>
-        </View>      
       </View>
     );
   }

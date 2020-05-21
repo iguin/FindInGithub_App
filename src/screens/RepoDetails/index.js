@@ -19,7 +19,7 @@ export default function RepoDetails({ navigation, route }) {
     api.fetchURL(route.params.repo)
     .then(response => {
       setData(response.data);
-      console.log(response.data);
+      // console.log(response.data);
       setDataLoading(false);
     })
     .catch(err => Alert.alert('Oopss!', 'Algo deu errado'))
@@ -53,26 +53,32 @@ export default function RepoDetails({ navigation, route }) {
         drawerPosition="right"
         drawerType="slide"
         renderNavigationView={() => <RepoIssues url={ data.issues_url } isOpen={drawerOpen} drawer={drawer} />}
-        edgeWidth={Dimensions.get('window').width}
-        onDrawerOpen={() => setDrawerOpen(true)}
+        edgeWidth={Dimensions.get('window').width / 2}
         ref={(_drawer) => setDrawer(_drawer)}
+        onDrawerOpen={() => setDrawerOpen(true)}
+        drawerLockMode={data.has_issues ? 'unlocked': 'locked-open'}
       >
         <View style={styles.container}>
           <View style={styles.header}>
             <View style={styles.headerButtons}>
               <TouchableOpacity
-                style={ styles.backButton }
+                style={ styles.headerButton }
                 onPress={() => navigation.goBack()}
                 activeOpacity={0.8}
               >
                 <MaterialIcons name="keyboard-backspace" size={25} style={{ color: '#FFFFFF' }} />
               </TouchableOpacity> 
               <TouchableOpacity
-                style={ styles.backButton }
+                style={styles.headerButton}
                 onPress={() => drawer.openDrawer()}
                 activeOpacity={0.8}
+                disabled={!data.has_issues}
               >
-                <FontAwesome name="comments" size={25} style={{ color: '#FFFFFF' }} />
+                <FontAwesome name="comments" size={25} style={{
+                  color: '#FFFFFF',
+                  opacity: data.has_issues ? 1 : 0.2,
+                }} />
+                <Text style={styles.badge}>{data.open_issues_count}</Text>
               </TouchableOpacity> 
             </View>
             <Text style={styles.headerTitle}>{data.name}</Text>

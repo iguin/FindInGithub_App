@@ -18,7 +18,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  backButton: {
+  headerButton: {
+    position: 'relative',
     width: 40,
     height: 40,
     marginBottom: 10,
@@ -26,6 +27,17 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  badge: {
+    position: 'absolute',
+    bottom: -5,
+    right: 0,
+    backgroundColor: '#555555',
+    color: '#FFFFFF',
+    fontFamily: fontsFamily.regular,
+    fontSize: 8,
+    paddingHorizontal: 5,
+    borderRadius: 2,
   },
   headerTitle: {
     color: '#FFFFFF',
