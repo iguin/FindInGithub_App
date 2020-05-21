@@ -8,6 +8,7 @@ class Api {
     });
   }
   
+  // Default fetch
   fetchURL(url, config = {}) {
     return axios.get(url, config);
   }
@@ -21,8 +22,14 @@ class Api {
     });
   }
 
+  // Return user data
   getUser(user) {
     return this.instance.get(`/users/${user}`);
+  }
+
+  // Return the api rate limit
+  getRateLimit() {
+    return this.instance.get('/rate_limit');
   }
 
 }

@@ -4,8 +4,8 @@ import { MaterialIcons, Feather, FontAwesome } from '@expo/vector-icons';
 import FullScreenLoading from '../../components/FullScreenLoading';
 import api from '../../service';
 import { styles } from './styles';
-import RepoIssues from '../../components/RepoIssues';
 import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
+import RepoIssues from '../RepoIssues';
 
 export default function RepoDetails({ navigation, route }) {
 
@@ -19,6 +19,7 @@ export default function RepoDetails({ navigation, route }) {
     api.fetchURL(route.params.repo)
     .then(response => {
       setData(response.data);
+      console.log(response.data);
       setDataLoading(false);
     })
     .catch(err => Alert.alert('Oopss!', 'Algo deu errado'))
