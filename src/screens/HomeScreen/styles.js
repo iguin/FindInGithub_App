@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
     backgroundColor: '#000000',
     flex: 1,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   titleContainer: {
     paddingTop: 30,
     paddingBottom: 20,
@@ -26,6 +31,26 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     opacity: 0.4,
     textTransform: 'uppercase'
+  },
+  status: {
+    flexDirection: 'row',
+  },
+  statusBox: {
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  statusTitle: {
+    color: '#FFFFFF',
+    fontFamily: fontsFamily.regular,
+    textTransform: 'uppercase',
+    opacity: 0.5,
+    fontSize: 8,
+  },
+  statusValues: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontFamily: fontsFamily.regular,
   },
   searchContainer: {
     paddingHorizontal: defaultHorizontalPadding,

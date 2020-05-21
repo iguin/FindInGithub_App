@@ -15,6 +15,7 @@ export default function RepoIssues({ url, isOpen, drawer }) {
   const[itemsPerPage] = useState(15);
   const[issuesState, setIssuesState] = useState('open');
   const[switchEnable, setSwitchEnable] = useState(false);
+  const[flatRef, setFlatRef] = useState();
 
   useEffect(() => {
     // Show the issues if this screen are open
@@ -23,20 +24,35 @@ export default function RepoIssues({ url, isOpen, drawer }) {
     }
   }, [isOpen]);
   
-  const handleIssues = (page = 1) => {    
+  useEffect(() => {
     const path = url.replace('{/number}', '');
 
-    const config = {
+    api.fetchURL(path, {
       params: {
         per_page: itemsPerPage,
         page: page,
         state: issuesState
       }
-    };
-    
-    console.log(config);
+    })
+    .then(response => {
+      let responseData = response.data;
+      setData(responseData);
+    })
+    .catch(err => {
+      Alert.alert('Oops!', 'Algo deu erro :(')
+    });
+  }, [switchEnable]);
 
-    api.fetchURL(path, config)
+  const handleIssues = (page = 1) => {    
+    const path = url.replace('{/number}', '');
+
+    api.fetchURL(path, {
+      params: {
+        per_page: itemsPerPage,
+        page: page,
+        state: issuesState
+      }
+    })
     .then(response => {
       let responseData = data;
       responseData.push(...response.data);
@@ -99,6 +115,7 @@ export default function RepoIssues({ url, isOpen, drawer }) {
         {/* CONTENT */}
         <View style={styles.content}>
           <FlatList
+            ref={_flat => setFlatRef(_flat)}
             data={data}
             keyExtractor={item => String(item.id)}
             contentContainerStyle={{paddingVertical: 10}}
@@ -107,12 +124,13 @@ export default function RepoIssues({ url, isOpen, drawer }) {
               <RepoIssuesItem data={item} />
             )}
             ListEmptyComponent={() => <FullScreenLoading iconColor="#FFFFFF" bgColor="#111111" />}
-            onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.2}
             onEndReached={() => {
+              setLoadingPage(true);
+              flatRef.scrollToEnd();
               let changePage = page;
               ++changePage;
               setPage(changePage);
-              setLoadingPage(true);
               handleIssues(changePage);
             }}
             ListFooterComponent={() => !loadingPage ? (<></>) : (

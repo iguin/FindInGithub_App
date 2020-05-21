@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Alert, TouchableOpacity, Image, Linking, Dimensions } from 'react-native';
-import { MaterialIcons, Feather, FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons, Feather, FontAwesome, FontAwesome5, Entypo } from '@expo/vector-icons';
 import FullScreenLoading from '../../components/FullScreenLoading';
 import api from '../../service';
 import { styles } from './styles';
@@ -19,7 +19,7 @@ export default function RepoDetails({ navigation, route }) {
     api.fetchURL(route.params.repo)
     .then(response => {
       setData(response.data);
-      // console.log(response.data);
+      console.log(response.data);
       setDataLoading(false);
     })
     .catch(err => Alert.alert('Oopss!', 'Algo deu errado'))
@@ -56,11 +56,11 @@ export default function RepoDetails({ navigation, route }) {
         edgeWidth={Dimensions.get('window').width / 2}
         ref={(_drawer) => setDrawer(_drawer)}
         onDrawerOpen={() => setDrawerOpen(true)}
-        drawerLockMode={data.has_issues ? 'unlocked': 'locked-open'}
+        drawerLockMode={data.open_issues_count !== 0 ? 'unlocked': 'locked-open'}
       >
         <View style={styles.container}>
           <View style={styles.header}>
-            <View style={styles.headerButtons}>
+            <View style={styles.headerContent}>
               <TouchableOpacity
                 style={ styles.headerButton }
                 onPress={() => navigation.goBack()}
@@ -68,54 +68,56 @@ export default function RepoDetails({ navigation, route }) {
               >
                 <MaterialIcons name="keyboard-backspace" size={25} style={{ color: '#FFFFFF' }} />
               </TouchableOpacity> 
+              <View style={styles.headerText}>
+                <Text style={styles.headerTitle}>{data.name}</Text>
+                <View style={styles.subHeader}>
+                  <Text style={styles.headerSubtitle}>by</Text>
+                  <Image
+                    source={{ uri: data.owner.avatar_url}}
+                    style={styles.headerAvatar}
+                  />
+                  <Text style={styles.headerSubtitle}>{data.owner.login}</Text>
+                </View>
+              </View>
               <TouchableOpacity
                 style={styles.headerButton}
                 onPress={() => drawer.openDrawer()}
                 activeOpacity={0.8}
-                disabled={!data.has_issues}
+                disabled={!data.open_issues_count !== 0}
               >
                 <FontAwesome name="comments" size={25} style={{
                   color: '#FFFFFF',
-                  opacity: data.has_issues ? 1 : 0.2,
+                  opacity: data.open_issues_count !== 0 ? 1 : 0.2,
                 }} />
                 <Text style={styles.badge}>{data.open_issues_count}</Text>
               </TouchableOpacity> 
             </View>
-            <Text style={styles.headerTitle}>{data.name}</Text>
-            <View style={styles.subHeader}>
-              <Text style={styles.headerSubtitle}>by</Text>
-              <Image
-                source={{ uri: data.owner.avatar_url}}
-                style={styles.headerAvatar}
-              />
-              <Text style={styles.headerSubtitle}>{data.owner.login}</Text>
+          </View>
+          
+          <View style={styles.moreInfo}>
+            <View style={styles.infoBox}>
+              <FontAwesome5 name="eye" size={30} color="#FFFFFF" />
+              <Text style={styles.infoTitle}>Watchers</Text>
+              <Text style={styles.infoValue}>{data.watchers}</Text>
             </View>
-          </View>         
+            <View style={styles.infoBox}>
+              <Entypo name="flow-branch" size={30} color="#FFFFFF" />
+              <Text style={styles.infoTitle}>Forks</Text>
+              <Text style={styles.infoValue}>{data.forks}</Text>
+            </View>
+            <View style={styles.infoBox}>
+              <FontAwesome name="star" size={30} color="#FFFFFF" />
+              <Text style={styles.infoTitle}>Stars</Text>
+              <Text style={styles.infoValue}>{data.stargazers_count}</Text>
+            </View>
+          </View>
+          
+          <View style={styles.language}>
+            <Text style={styles.languageTitle}>Language</Text>
+            <Text style={styles.languageContent}>{data.language}</Text>
+          </View>
+
           <View style={styles.content}>
-            <View style={styles.contentUtilities}>
-              <View style={styles.contentUtilitiesItem}>
-                <Text style={styles.languageTitle}>Language</Text>
-                <Text style={styles.languageContent}>{data.language}</Text>
-              </View>
-              <View style={styles.contentUtilitiesItem}>
-                <TouchableOpacity
-                  onPress={() => Linking.openURL(data.svn_url)}
-                  activeOpacity={0.8}
-                  style={styles.contentIcon}
-                >
-                  <Feather name="link" size={20} color="#FFFFFF" />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.contentUtilitiesItem}>
-                <TouchableOpacity
-                  onPress={() => Linking.openURL(data.owner.html_url)}
-                  activeOpacity={0.6}
-                  style={styles.contentIcon}
-                >
-                  <Feather name="github" size={20} color="#FFFFFF" />
-                </TouchableOpacity>
-              </View>
-            </View>
             {
               data.description ?
               (
@@ -135,6 +137,27 @@ export default function RepoDetails({ navigation, route }) {
                 <Text style={styles.dateItemTitle}>Pushed at</Text>
                 <Text style={styles.dataItemContent}>{formatDateAndHours(data.pushed_at)}</Text>
               </View>
+            </View>
+          </View>
+
+          <View style={styles.contentUtilities}>
+            <View style={styles.contentUtilitiesItem}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(data.svn_url)}
+                activeOpacity={0.8}
+                style={styles.contentIcon}
+              >
+                <Feather name="link" size={25} color="#FFFFFF" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.contentUtilitiesItem}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(data.owner.html_url)}
+                activeOpacity={0.6}
+                style={styles.contentIcon}
+              >
+                <Feather name="github" size={25} color="#FFFFFF" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>

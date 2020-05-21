@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Alert } from 'react-native';
 import api from '../../service';
 
 import { styles } from './styles';
@@ -11,12 +11,25 @@ export default function HomeScreen({ navigation }) {
   const[searchTimeout, setSearchTimeout] = useState(null);
   const[searchResults, setSearchResults] = useState({});
   const[searchLoading, setSearchLoading] = useState(false);
+  const[status, setStatus] = useState({});
 
-  function handleSearch(text) {
+  useEffect(() => {
+    handleStatus();
+  }, [])
+
+  const handleStatus = () => {
+    api.getRateLimit()
+    .then(response => {
+      setStatus(response.data)
+    })
+    .catch(err => Alert.alert('Opps', 'Algo deu errado!'));
+  };
+
+  const handleSearch = (text) => {
     setSearch(text);
 
     clearTimeout(searchTimeout);
-    
+
     if(text.trim().length < 3) {
       setSearchResults({});
       return;
@@ -28,6 +41,7 @@ export default function HomeScreen({ navigation }) {
 
         await api.searchUser(text)
         .then(response => {
+          handleStatus();
           setSearchResults(response.data);
         })
         .catch(err => console.log(err))
@@ -38,7 +52,7 @@ export default function HomeScreen({ navigation }) {
     );
   }
 
-  function handleCleanInput() {
+  const handleCleanInput = () => {
     setSearch('');
     setSearchResults({});
   }
@@ -48,9 +62,29 @@ export default function HomeScreen({ navigation }) {
       onPress={() => Keyboard.dismiss()}
     >
       <View style={ styles.container }>
-        <View style={ styles.titleContainer }>
-          <Text style={ styles.subTitle }>Find in</Text>
-          <Text style={ styles.title }>Github</Text>
+        <View style={styles.header}>
+          <View style={ styles.titleContainer }>
+            <Text style={ styles.subTitle }>Find in</Text>
+            <Text style={ styles.title }>Github</Text>
+          </View>
+          <TouchableOpacity 
+            style={styles.status}
+            activeOpacity={0.5}
+            onPress={() => handleStatus()}
+          >
+            <View style={styles.statusBox}>
+              <Text style={styles.statusTitle}>Search</Text>
+              <Text style={styles.statusValues}>{status.resources.search.remaining}/{status.resources.search.limit}</Text>
+            </View>
+            <View style={styles.statusBox}>
+              <Text style={styles.statusTitle}>Core</Text>
+              <Text style={styles.statusValues}>{status.resources.core.remaining}/{status.resources.core.limit}</Text>
+            </View>
+            <View style={styles.statusBox}>
+              <Text style={styles.statusTitle}>Graphql</Text>
+              <Text style={styles.statusValues}>{status.resources.graphql.remaining}/{status.resources.graphql.limit}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <View style={ styles.searchContainer }>
           <TextInput
