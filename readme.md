@@ -4,7 +4,7 @@
   Um App de pesquisas utilizado a API do Github
 </p>
 
-## Pprincipais tecnologias
+## Principais tecnologias
 * Expo
 * React Native
 * React Navigation
