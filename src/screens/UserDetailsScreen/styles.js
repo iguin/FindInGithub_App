@@ -11,8 +11,7 @@ export const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: 'center',
     height: 45,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   headerDesc: {
@@ -32,7 +31,14 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
   },
   closeBtn: {
-    paddingVertical: 5,
+    position: 'absolute',
+    left: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   closeBtnText: {
     color: '#FFFFFF',

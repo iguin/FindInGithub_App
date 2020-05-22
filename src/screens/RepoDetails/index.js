@@ -19,7 +19,7 @@ export default function RepoDetails({ navigation, route }) {
     api.fetchURL(route.params.repo)
     .then(response => {
       setData(response.data);
-      console.log(response.data);
+      // console.log(response.data);
       setDataLoading(false);
     })
     .catch(err => Alert.alert('Oopss!', 'Algo deu errado'))

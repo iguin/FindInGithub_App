@@ -11,6 +11,7 @@ export default function RepoIssues({ url, isOpen, drawer }) {
   const[data, setData] = useState([]);
   const[loading, setLoading] = useState(true);
   const[loadingPage, setLoadingPage] = useState(false);
+  const[path, setPath] = useState('');
   const[page, setPage] = useState(1);
   const[itemsPerPage] = useState(15);
   const[issuesState, setIssuesState] = useState('open');
@@ -18,15 +19,13 @@ export default function RepoIssues({ url, isOpen, drawer }) {
   const[flatRef, setFlatRef] = useState();
 
   useEffect(() => {
-    // Show the issues if this screen are open
+    setPath(url.replace('{/number}', ''));  
     if(isOpen) {
       handleIssues();
     }
   }, [isOpen]);
   
-  useEffect(() => {
-    const path = url.replace('{/number}', '');
-
+  const handleIssues = (page = 1) => {   
     api.fetchURL(path, {
       params: {
         per_page: itemsPerPage,
@@ -35,26 +34,9 @@ export default function RepoIssues({ url, isOpen, drawer }) {
       }
     })
     .then(response => {
-      let responseData = response.data;
-      setData(responseData);
-    })
-    .catch(err => {
-      Alert.alert('Oops!', 'Algo deu erro :(')
-    });
-  }, [switchEnable]);
 
-  const handleIssues = (page = 1) => {    
-    const path = url.replace('{/number}', '');
-
-    api.fetchURL(path, {
-      params: {
-        per_page: itemsPerPage,
-        page: page,
-        state: issuesState
-      }
-    })
-    .then(response => {
       let responseData = data;
+
       responseData.push(...response.data);
 
       setData(responseData);
@@ -71,14 +53,25 @@ export default function RepoIssues({ url, isOpen, drawer }) {
 
   const toggleSwitch = () => {
     // Set Issues state
-    setIssuesState(switchEnable ? 'open' : 'closed');
-    setSwitchEnable(previousState => !previousState);
-  }
+    const state = switchEnable ? 'open' : 'closed';
 
-  const handlePageChange = (type) => {
-    if(page === 1 && type === 'prev') return;
-    setPage(page => type === 'next' ? ++page : --page);
-  };
+    setIssuesState(state);
+    setSwitchEnable(previousState => !previousState);
+
+    api.fetchURL(path, {
+      params: {
+        per_page: itemsPerPage,
+        page: page,
+        state: state
+      }
+    })
+    .then(response => {
+      setData(response.data);
+    })
+    .catch(err => {
+      Alert.alert('Oops!', 'Algo deu erro :(')
+    });
+  }
 
   if(loading) {
     return (

@@ -67,7 +67,7 @@ export default function UserDetailsScreen({ route, navigation }) {
           onPress={() => navigation.goBack()}
           activeOpacity={0.8}
         >
-          <MaterialIcons name="keyboard-backspace" size={30} style={{ color: '#FFFFFF', opacity: 0.5 }} />
+          <MaterialIcons name="keyboard-backspace" size={25} style={{ color: '#FFFFFF' }} />
         </TouchableOpacity> 
       </View>
 
