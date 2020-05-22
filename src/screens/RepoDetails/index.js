@@ -94,30 +94,38 @@ export default function RepoDetails({ navigation, route }) {
             </View>
           </View>
           
-          <View style={styles.moreInfo}>
-            <View style={styles.infoBox}>
-              <FontAwesome5 name="eye" size={30} color="#FFFFFF" />
-              <Text style={styles.infoTitle}>Watchers</Text>
-              <Text style={styles.infoValue}>{data.watchers}</Text>
-            </View>
-            <View style={styles.infoBox}>
-              <Entypo name="flow-branch" size={30} color="#FFFFFF" />
-              <Text style={styles.infoTitle}>Forks</Text>
-              <Text style={styles.infoValue}>{data.forks}</Text>
-            </View>
-            <View style={styles.infoBox}>
-              <FontAwesome name="star" size={30} color="#FFFFFF" />
-              <Text style={styles.infoTitle}>Stars</Text>
-              <Text style={styles.infoValue}>{data.stargazers_count}</Text>
-            </View>
-          </View>
-          
-          <View style={styles.language}>
-            <Text style={styles.languageTitle}>Language</Text>
-            <Text style={styles.languageContent}>{data.language}</Text>
-          </View>
-
           <View style={styles.content}>
+            <View style={styles.mainDateItem}>
+              <Text style={styles.dateItemTitle}>Created at</Text>
+              <Text style={styles.dataItemContent}>{formatDateAndHours(data.created_at)}</Text>
+            </View>
+            <View style={styles.moreInfo}>
+              <View style={styles.infoBox}>
+                <FontAwesome5 name="eye" size={30} color="#FFFFFF" style={styles.infoIcon}/>
+                <Text style={styles.infoTitle}>Watchers</Text>
+                <Text style={styles.infoValue}>{data.watchers}</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <Entypo name="flow-branch" size={30} color="#FFFFFF" style={styles.infoIcon}/>
+                <Text style={styles.infoTitle}>Forks</Text>
+                <Text style={styles.infoValue}>{data.forks}</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <FontAwesome name="comments" size={25} color="#FFFFFF" style={styles.infoIcon}/>
+                <Text style={styles.infoTitle}>Issues</Text>
+                <Text style={styles.infoValue}>{data.open_issues_count}</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <FontAwesome name="star" size={30} color="#FFFFFF" style={styles.infoIcon}/>
+                <Text style={styles.infoTitle}>Stars</Text>
+                <Text style={styles.infoValue}>{data.stargazers_count}</Text>
+              </View>
+            </View>
+            
+            <View style={styles.language}>
+              <Text style={styles.languageTitle}>Language</Text>
+              <Text style={styles.languageContent}>{data.language}</Text>
+            </View>
             {
               data.description ?
               (
@@ -125,10 +133,6 @@ export default function RepoDetails({ navigation, route }) {
               ) : <></>
             }
             <View style={styles.repoDates}>
-              <View style={styles.dateItem}>
-                <Text style={styles.dateItemTitle}>Created at</Text>
-                <Text style={styles.dataItemContent}>{formatDateAndHours(data.created_at)}</Text>
-              </View>
               <View style={styles.dateItem}>
                 <Text style={styles.dateItemTitle}>Updated at</Text>
                 <Text style={styles.dataItemContent}>{formatDateAndHours(data.updated_at)}</Text>
@@ -150,6 +154,19 @@ export default function RepoDetails({ navigation, route }) {
                 <Feather name="link" size={25} color="#FFFFFF" />
               </TouchableOpacity>
             </View>
+            {
+              !data.homepage ? <></> : (
+                <View style={styles.contentUtilitiesItem}>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(data.homepage)}
+                    activeOpacity={0.8}
+                    style={styles.contentIcon}
+                  >
+                    <MaterialIcons name="web" size={25} color="#FFFFFF" />
+                  </TouchableOpacity>
+                </View>
+              )
+            }
             <View style={styles.contentUtilitiesItem}>
               <TouchableOpacity
                 onPress={() => Linking.openURL(data.owner.html_url)}

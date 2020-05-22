@@ -11,7 +11,7 @@ export default function HomeScreen({ navigation }) {
   const[searchTimeout, setSearchTimeout] = useState(null);
   const[searchResults, setSearchResults] = useState({});
   const[searchLoading, setSearchLoading] = useState(false);
-  const[status, setStatus] = useState({});
+  const[status, setStatus] = useState(null);
 
   useEffect(() => {
     handleStatus();
@@ -67,24 +67,28 @@ export default function HomeScreen({ navigation }) {
             <Text style={ styles.subTitle }>Find in</Text>
             <Text style={ styles.title }>Github</Text>
           </View>
-          <TouchableOpacity 
-            style={styles.status}
-            activeOpacity={0.5}
-            onPress={() => handleStatus()}
-          >
-            <View style={styles.statusBox}>
-              <Text style={styles.statusTitle}>Search</Text>
-              <Text style={styles.statusValues}>{status.resources.search.remaining}/{status.resources.search.limit}</Text>
-            </View>
-            <View style={styles.statusBox}>
-              <Text style={styles.statusTitle}>Core</Text>
-              <Text style={styles.statusValues}>{status.resources.core.remaining}/{status.resources.core.limit}</Text>
-            </View>
-            <View style={styles.statusBox}>
-              <Text style={styles.statusTitle}>Graphql</Text>
-              <Text style={styles.statusValues}>{status.resources.graphql.remaining}/{status.resources.graphql.limit}</Text>
-            </View>
-          </TouchableOpacity>
+          {
+            !status ? <></> : (
+              <TouchableOpacity 
+                style={styles.status}
+                activeOpacity={0.5}
+                onPress={() => handleStatus()}
+              >
+                <View style={styles.statusBox}>
+                  <Text style={styles.statusTitle}>Search</Text>
+                  <Text style={styles.statusValues}>{status.resources.search.remaining}/{status.resources.search.limit}</Text>
+                </View>
+                <View style={styles.statusBox}>
+                  <Text style={styles.statusTitle}>Core</Text>
+                  <Text style={styles.statusValues}>{status.resources.core.remaining}/{status.resources.core.limit}</Text>
+                </View>
+                <View style={styles.statusBox}>
+                  <Text style={styles.statusTitle}>Graphql</Text>
+                  <Text style={styles.statusValues}>{status.resources.graphql.remaining}/{status.resources.graphql.limit}</Text>
+                </View>
+              </TouchableOpacity>
+            )
+          }
         </View>
         <View style={ styles.searchContainer }>
           <TextInput
@@ -132,8 +136,9 @@ export default function HomeScreen({ navigation }) {
                 keyExtractor={ item => String(item.id) }
                 renderItem={({ item }) => (
                   <UserListItem 
-                    data={ item }
-                    navigation={ navigation }
+                    data={item}
+                    navigation={navigation}
+                    status={status}
                   /> 
                 )}
                 ItemSeparatorComponent={() => <View style={{ height: 7 }} />}
